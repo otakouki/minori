@@ -1,0 +1,185 @@
+body{
+  text-align : center;
+}
+
+/*　ハンバーガーボタン　*/
+/* 場所指定 */
+.hamburger {
+  display : block;
+  position: fixed;
+  z-index : 3;
+  left  : 13px;
+  top   : 12px;
+  width : 42px;
+  height: 42px;
+  cursor: pointer;
+  text-align: center;
+}
+/* アニメーション,形*/
+.hamburger span {
+  display : block;
+  position: absolute;
+  width   : 30px;
+  height  : 2px ;
+  left    : 6px;
+  background : #555;
+  transition        : 0.3s ease-in-out;
+}
+.hamburger span:nth-child(1) {
+  top: 10px;
+}
+.hamburger span:nth-child(2) {
+  top: 20px;
+}
+.hamburger span:nth-child(3) {
+  top: 30px;
+}
+
+/* ナビ開いてる時のボタンの形 */
+.hamburger.active span:nth-child(1) {
+  top : 16px;
+  left: 6px;
+  transform        : rotate(-45deg);
+}
+
+.hamburger.active span:nth-child(2),
+.hamburger.active span:nth-child(3) {
+  top: 16px;
+  transform        : rotate(45deg);
+}
+
+nav.globalMenuSp {
+  position: fixed;
+  z-index : 2;
+  top  : 0;
+  left : 0;
+  color: #000;
+  background: #fff;
+  text-align: center;
+  transform: translateX(-100%);
+  transition: all 0.6s;
+  width: 35%;
+}
+
+nav.globalMenuSp ul {
+  background: #ccc;
+  margin: 0 auto;
+  padding: 0;
+  width: 100%;
+}
+
+nav.globalMenuSp ul li {
+  list-style-type: none;
+  padding: 0;
+  width: 100%;
+  border-bottom: 1px solid #fff;
+}
+nav.globalMenuSp ul li:last-child {
+  padding-bottom: 0;
+  border-bottom: none;
+}
+nav.globalMenuSp ul li:hover{
+  background :#ddd;
+}
+
+nav.globalMenuSp ul li a {
+  display: block;
+  color: #000;
+  padding: 1em 0;
+  text-decoration :none;
+}
+
+/* このクラスを、jQueryで付与・削除する */
+nav.globalMenuSp.active {
+  transform: translateX(0%);
+}
+
+/* タブメニュー */
+ul,
+li {
+  padding: 0;
+  margin: 0;
+}
+
+li {
+  list-style: none;
+}
+
+.tab {
+  width: 500px;
+  max-width: 100%;
+  margin: auto;
+}
+
+.tab-menu {
+  display: flex;
+}
+
+.tab-item {
+  text-align: center;
+  padding: 10px 0;
+  cursor: pointer;
+
+  /* widthを同じ比率で分けあう */
+  flex-grow: 1;
+
+  /* 下線以外をつける */
+  border-top: 1px solid skyblue;
+  border-left: 1px solid skyblue;
+  border-right: 1px solid skyblue;
+}
+
+.tab-item:not(:first-child) {
+  border-left: none;
+}
+
+/* アクティブなタブはデザインを変えて選択中であることが解るようにする */
+.tab-item.active {
+  background: red;
+  color: white;
+}
+
+.tab-box {
+  height: 200px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border: 1px solid skyblue;
+}
+
+/* コンテンツは原則非表示 */
+.tab-content {
+  display: none;
+  font-size: 40px;
+}
+
+/* .showがついたコンテンツのみ表示 */
+.tab-content.show {
+  display: block;
+}
+
+/* 表示の色付け(仮) */
+.profile {
+  background-color :aquamarine;
+  margin-right: auto;
+  margin-left : auto;
+}
+.coment {
+  background-color :green;
+  margin-right: auto;
+  margin-left : auto;
+}
+.Upload {
+  background-color :red  ;
+  margin-right: auto;
+  margin-left : auto;
+}
+
+/* 画像の表示 */
+.profile_img {
+  display: block;
+  width: 160px;
+  height: 160px;
+  border-radius:50%;
+  margin: 0 auto;
+}
