@@ -12,9 +12,9 @@
 <body>
   <div align="center">
     <table border="0">
-      <form action="logincheck.php" method="post">
+      <form action="mypage.html" method="get">
         <tr>
-          <th>ユーザ名</th>
+          <th>ユーザID</th>
           <td><input type="text" name="user_id" value="" size="24"></td>
         </tr>
         <tr>
@@ -27,6 +27,5 @@
       </form>
     </table>
   </div>
-  <p herf="newlogin.html">新規登録はこちら</p>
 </body>
 </html>

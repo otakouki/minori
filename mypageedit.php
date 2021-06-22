@@ -12,11 +12,7 @@
 <body>
   <div align="center">
     <table border="0">
-      <form action="mypage.php" method="get">
-        <tr>
-          <th>プロフィール画像</th>
-          <tb><input type="file" name="image"></tb>
-        </tr>
+      <form action="mypage.html" method="get">
         <tr>
           <th>名前：</th>
           <td><input type="text" name="myname" value="" size="24"></td>

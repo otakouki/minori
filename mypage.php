@@ -6,6 +6,30 @@
 コメント：
 ■データ
 使う言語など： -->
+<!-- iamge,myname,mycode,mycomment -->
+<?php
+define('DSN', 'mysql:host=localhost;dbname=test');
+define('DB_USER', 'root');
+define('DB_PASS', 'root');
+
+session_start();
+
+// if(!isset($_SESSION["user_name"])) {
+//     $no_login_url = "login.html";
+//     header("Location: {$no_login_url}");
+//     exit;
+// }
+
+
+// try{
+//   $pdo = new PDO(DSN,DB_USER,DB_PASS);
+//   $sql = "SELECT * FROM users WHERE NAME == $_SESSION['user_id']";
+//   $stmt = $pdo->query($sql);
+// }catch(Exception $e){
+//   $msg = $e->getMessage();
+// }
+
+?>
 
 <!DOCTYPE html>
 <html lang="ja">

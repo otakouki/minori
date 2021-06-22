@@ -6,6 +6,9 @@ define('DB_PASS', 'root');
 
 session_start();
 
+$userid=$_POST['user_id'];
+$passwd=$_POST['password'];
+
 try{
   $pdo = new PDO(DSN,DB_USER,DB_PASS);
   $sql = "SELECT * FROM users";
@@ -13,9 +16,10 @@ try{
 }catch(Exception $e){
   $msg = $e->getMessage();
 }
-
+$hash = hash( "sha256" , $passwd);
+// var_dump($hash);
 foreach ($stmt as $row) {
-  if($_POST['user_id']==$row['NAME']&&$_POST['password']==$row['PASSWORD']){
+  if($userid==$row['NAME']&&$hash==$row['PASSWORD']){
     $_SESSION["user_id"] = $_POST["user_id"];
     $login_success_url = "mypage.php";
     header("Location: {$login_success_url}");
