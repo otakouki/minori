@@ -15,11 +15,7 @@ try{
   $sql = "INSERT INTO users(NAME,PASSWORD)VALUES(:name,:passwd)";
   $stmt = $pdo->prepare($sql);
   $stmt->execute(array(':name'=>$userid, ':passwd'=>$hash));
-  echo "とうろくできました";
+  echo "登録完了";
 }catch(Exception $e){
   $msg = $e->getMessage();
 }
-
-
-var_dump($userid,$hash);
-echo 新規登録;
