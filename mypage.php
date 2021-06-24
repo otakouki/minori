@@ -14,6 +14,8 @@ define('DB_PASS', 'root');
 
 session_start();
 
+$userid = $_SESSION["user_id"];
+
 // if(!isset($_SESSION["user_name"])) {
 //     $no_login_url = "login.html";
 //     header("Location: {$no_login_url}");
@@ -33,6 +35,7 @@ session_start();
 
 <!DOCTYPE html>
 <html lang="ja">
+
 <head>
   <meta charset="utf-8">
   <title>プロフィール画面</title>
@@ -42,6 +45,7 @@ session_start();
 <header>
   <h1>マイページ</h1>
 </header>
+
 <body>
 
   <!-- ハンバーガーメニュー -->
@@ -68,7 +72,7 @@ session_start();
     <img class="profile_img" src="file:///C:/Users/2190492/Desktop/%E3%83%91%E3%83%BC%E3%82%BD%E3%83%8A%E3%83%AB/%E7%94%BB%E5%83%8F/%E8%89%B2%E3%80%85/%E3%83%81%E3%83%99%E3%83%83%E3%83%88%E3%82%B9%E3%83%8A%E3%82%AE%E3%83%84%E3%83%8D.jpg">
     <div class="profile_name">
       <span>名前：</span>
-      <span class="name">植田</span>
+      <span class="name"><?php echo $userid; ?></span>
     </div>
     <div class="user_ID">
       <span>ID:</span>
@@ -99,4 +103,5 @@ session_start();
     </div>
   </div>
 </body>
+
 </html>
