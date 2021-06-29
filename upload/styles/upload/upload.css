@@ -1,0 +1,203 @@
+.upload-container {
+    position: relative;
+    overflow: hidden;
+}
+
+.upload-drop-container {
+    width: 100%;
+    height: 200px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border: solid 1px #999;
+    box-sizing: border-box;
+    border-radius: 0;
+    position: relative;
+}
+
+.upload-drop {
+    background: #ddd;
+    position: absolute;
+    width: 100%;
+    height: 100%;
+}
+
+.upload-drop::after {
+    content: 'ファイルをドロップしてください。';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    color: #666;
+    display: none;
+}
+
+.upload-meta-container {
+    margin-top: 24px;
+    background: #fff;
+    padding: 8px;
+    border-radius: 0;
+}
+
+.upload-meta {
+    display: flex;
+    align-items: center;
+    padding-bottom: 12px;
+    border-bottom: solid 1px #999;
+    
+    margin-top: 12px;
+}
+
+.upload-meta-title {
+    width: 25%;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.upload-meta-value {
+    width: 75%;
+    margin-right: 12px;
+    margin-left: 12px;
+}
+
+.upload-meta-value:first-child {
+    margin-top: 0;
+}
+
+.upload-meta-value-input {
+    width: 100%;
+    outline: none;
+    border: solid 1px #999;
+    margin: 0;
+    padding: 4px;
+    border-radius: 0;
+    font-size: 1.25em;
+}
+
+.upload-submit-container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.upload-submit-button {
+    padding: 4px 8px;
+    margin-top: 12px;
+    border: 0;
+    outline: 0;
+    border-radius: 0;
+    background: #ddd;
+    color: #000;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+.upload-submit-button:hover {
+    background: rgb(76 135 245);
+    color: #fff;
+}
+
+.upload-meta-button {
+    padding: 4px 8px;
+    border: 0;
+    outline: 0;
+    border-radius: 0;
+    background: #ddd;
+    color: #000;
+    cursor: pointer;
+    position: relative;
+}
+
+.upload-meta-button::before {
+    content: attr(data-title);
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    padding: 4px;
+    margin-top: -2.5em;
+    transform: translate(-50%, -50%);
+    white-space: nowrap;
+    background: rgba(0, 0, 0, 0.8);
+    color: #fff;
+    visibility: hidden;
+    border-radius: 0;
+    transition: 0.3s;
+    opacity: 0;
+    pointer-events: none;
+}
+
+.upload-meta-button:hover::before {
+    visibility: visible;
+    opacity: 1;
+}
+
+.upload-meta-button-select {
+    background: rgb(76 135 245);
+    color: #fff;
+}
+
+
+input[type="file"] {
+    display: none;
+}
+
+.upload-drop-label {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    cursor: pointer;
+}
+
+
+
+.upload-file-container {
+    /*position: absolute;*/
+    width: 100%;
+    height: 100%;
+    background: #fff;
+
+    position: relative;
+    margin-top: 24px;
+    min-height: 12em;
+}
+
+.upload-file {
+    display: flex;
+}
+
+.upload-file-name {
+    margin-right: auto;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.upload-file-name-container {
+    flex: 1;
+}
+
+.upload-file-size {
+    text-align: right;
+}
+
+.upload-file-name:first-child {
+    border-bottom: solid #000 1px;
+    margin-bottom: 12px;
+}
+
+.upload-file-size:first-child {
+    border-left: solid #000 1px;
+    border-bottom: solid #000 1px;
+    text-align: left;
+    padding-left: 12px;
+    padding-right: 12px;
+    margin-bottom: 12px;
+}
+
+.upload-file {
+    padding: 12px;
+}

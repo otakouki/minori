@@ -1,0 +1,186 @@
+<!doctype html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="styles/upload/main-lite.css">
+    <title>Upload - Minori</title>
+</head>
+
+<body>
+    <div class="header-wrapper">
+        <div class="header">
+            <div class="header-content">
+                <div class="header-title">Minori Upload</div>
+            </div>
+        </div>
+    </div>
+    <div class="main">
+        <div class="section">
+            <div class="section-contant">
+
+
+                <link rel="stylesheet" href="styles/upload/upload.css">
+                <style>
+                    .upload-file-container {
+                        position: relative;
+                        width: 100%;
+                        height: 300px;
+                        border-radius: 4px;
+                        overflow: auto;
+                    }
+
+                    .upload-file {
+                        position: absolute;
+                        width: 100%;
+                        height: 100%;
+                        display: flex;
+                        flex-direction: column;
+
+                        box-sizing: border-box;
+                    }
+
+                    .upload-file div::before {}
+
+                    .upload-file-input-container {
+                        display: flex;
+                    }
+
+                    .upload-file-input {
+                        margin-left: auto;
+                    }
+
+                    .upload-file-input-button {
+                        cursor: pointer;
+                        outline: 0;
+                        border: 0;
+                        padding: 4px 8px;
+                        background: rgb(110, 110, 255);
+                        color: #fff;
+                        border-radius: 6px;
+                        transition: 0.1s;
+                    }
+
+                    .upload-file-input-button:hover {
+                        background: rgb(77, 77, 227);
+                    }
+
+                    .upload-file-data-container {
+                        margin-top: 20px;
+                        position: relative;
+                        height: 100%;
+                    }
+
+                    .upload-file-data {
+                        display: flex;
+                        cursor: pointer;
+                    }
+
+                    .upload-file-data-container:empty::before{
+                        content: 'ドラック&ドロップからもファイルを選択できます。';
+                        position: absolute;
+                        width: 100%;
+                        height: 100%;
+                        display: flex;
+                        justify-content: center;
+                        align-items: center;
+
+                        display: none;
+                    }
+
+                    .upload-file-data-empty-container {
+                        position: absolute;
+                        width: 100%;
+                        height: 100%;
+                        display: none;
+                    }
+
+                    .upload-file-data-empty {
+                        display: flex;
+                        justify-content: center;
+                        align-items: center;
+                        height: 100%;
+                    }
+                </style>
+                <div class="upload-container">
+
+                    <div class="upload-file-container">
+                        <div class="upload-file">
+
+                            <div class="upload-file-input-container">
+                                <div class="upload-file-input">
+                                    <label class="upload-file-input-button">
+                                        <input type="file" class="upload-file-input-file">ファイル
+                                    </label>
+                                    <label class="upload-file-input-button" style="margin-left: 1em;">
+                                        <input type="file" class="upload-file-input-file" webkitdirectory directory>フォルダ
+                                    </label>
+                                </div>
+                            </div>
+
+                            <div class="upload-file-data-container"></div>
+                        </div>
+                    </div>
+
+                    <div class="upload-file-meta-container" hidden>
+                        <div class="upload-file-meta">
+                            <div class="upload-file-meta-name">Name</div>
+                            <div class="upload-file-meta-value" data-type="text">
+                                <input class="upload-file-meta-input">
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="upload-meta-container">
+                        <div class="upload-meta">
+                            <div class="upload-meta-title">タイトル</div>
+                            <div class="upload-meta-value"><input type="text" class="upload-meta-value-input"></div>
+                        </div>
+
+                        <div class="upload-meta">
+                            <div class="upload-meta-title">データベースエクスポート</div>
+                            <div class="upload-meta-value" hidden>
+                                <input type="file">
+                                <span style="opacity: 0.5;">
+                                    <button class="upload-meta-button upload-meta-button-select">PostgreSQL</button>
+                                    <button class="upload-meta-button">MariaDB</button>
+                                    <button class="upload-meta-button">MySQL</button>
+                                    <button class="upload-meta-button">SQLite</button>
+                                </span>
+                            </div>
+                        </div>
+
+                        <div class="upload-meta">
+                            <div class="upload-meta-title">公開範囲</div>
+                            <div class="upload-meta-value">
+                                <button class="upload-meta-button upload-meta-button-select"
+                                    data-title="全員に公開します。">パブリック</button>
+                                <button class="upload-meta-button" data-title="自分のみに公開します。">プライベート</button>
+                            </div>
+                        </div>
+
+                        <div class="upload-submit-container">
+                            <button class="upload-submit-button">アップロード</button>
+                        </div>
+                    </div>
+
+                    <div class="upload-debug">
+
+                    </div>
+
+                </div>
+
+
+            </div>
+        </div>
+    </div>
+
+    <script src="scripts/upload/from.js"></script>
+    <script src="scripts/upload/upload.js"></script>
+    <script>
+        const upload_view = new UploadView(document.querySelector('.upload-container'));
+    </script>
+</body>
+
+</html>
