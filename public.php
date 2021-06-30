@@ -7,6 +7,11 @@
 
 <?php
 
+session_start();
+$username = $_SESSION['user_name'];
+$userid = $_SESSION['user_id'];
+
+echo "名前は" . $username . "でidは" . $userid . "です。";
 define('DB_HOST', 'localhost');
 define('DB_NAME', 'test');
 define('DB_USER', 'root');
@@ -95,8 +100,39 @@ while ($data = mysqli_fetch_array($result)) {
               });
           });
         });
-        // 
+        //
       </script>
+      <button id="iine<?php echo $i; ?>" value="<?php echo $i ?>">いいね</button>
+      <div id="resultiine<?php echo $i; ?>"></div>
+
+      <script>
+        // jQuery
+        $(function() {
+          $("#iine<?php echo $i; ?>").click(function(event) {
+
+            var conid = document.getElementById("iine<?php echo $i ?>").value
+            $.ajax({
+                type: "post",
+                url: "ajaxGood.php",
+                data: {
+                  ContentID: conid,
+                  SESSIONID: 1
+                },
+                dataType: "html"
+              })
+              // Ajaxリクエストが成功した場合
+              .done(function(data) {
+                $("#resultiine<?php echo $i; ?>").html(data);
+              })
+              // Ajaxリクエストが失敗した場合
+              .fail(function(XMLHttpRequest, textStatus, errorThrown) {
+                alert(errorThrown);
+              });
+          });
+        });
+        //
+      </script>
+
 
 
   </div>

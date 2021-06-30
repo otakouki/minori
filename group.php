@@ -18,7 +18,7 @@ if ($link->connect_error) {
 }
 
 //SELECT文を発行
-$result = $link->query('select c.Title,u.name from content c, users u where c.user_id = u.userid and c.range_id = 3');
+$result = $link->query('SELECT c.Title,u.name from content c, users u where c.user_id = u.userid and c.range_id = 3');
 if (!$result) {
     $sql_error = $link->error;
     echo 'select failed.<br>';

@@ -20,8 +20,10 @@ $hash = hash( "sha256" , $passwd);
 // var_dump($hash);
 foreach ($stmt as $row) {
   if($userid==$row['NAME']&&$hash==$row['PASSWORD']){
-    $_SESSION["user_id"] = $_POST["user_id"];
-    $login_success_url = "mypage.php";
+    $_SESSION["user_name"] = $userid;
+    $_SESSION["user_id"] = $row['USERID'];
+
+    $login_success_url = "main.php";
     header("Location: {$login_success_url}");
     exit;
   }else {
