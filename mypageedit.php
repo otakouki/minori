@@ -1,3 +1,21 @@
+<?php
+
+define('DSN', 'mysql:host=localhost;dbname=test');
+define('DB_USER', 'root');
+define('DB_PASS', 'root');
+
+session_start();
+
+try{
+  $pdo = new PDO(DSN,DB_USER,DB_PASS);
+  $sql = "SELECT * FROM langlist";
+  $stmt = $pdo->query($sql);
+}catch(Exception $e){
+  $msg = $e->getMessage();
+}
+
+?>
+
 <!DOCTYPE html>
 <html lang="ja">
 <head>
@@ -12,14 +30,25 @@
 <body>
   <div align="center">
     <table border="0">
-      <form action="mypage.html" method="get">
+      <!-- 植田　mypageeditcheckに変更 -->
+      <form action="mypageeditcheck.php" method="get">
+        <tr>
+          <th>プロフィール画像:</th>
+          <tb><input type="file" name="image"></tb>
+        </tr>
         <tr>
           <th>名前：</th>
           <td><input type="text" name="myname" value="" size="24"></td>
         </tr>
         <tr>
           <th>使用言語：</th>
-          <td><input type="text" name="mycode" value="" size="24"></td>
+          <td>
+            <!-- DBからプログラム言語一覧を取り出す -->
+            <?php
+              foreach ($stmt as $row) {
+                ?><label><input type="checkbox" class="lang" value=<?php echo $row['LANGID'];?>><?php echo $row['LANG'];?></label>
+              <?php } ?>
+        </td>
         </tr>
         <tr>
           <th>コメント：</th>
