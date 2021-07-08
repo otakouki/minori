@@ -6,7 +6,7 @@
 コメント：
 ■データ
 使う言語など： -->
-<!-- iamge,myname,mycode,mycomment -->
+<!-- 画像表示できるようになった。変更する場合はmypegeeditcheckで保存先変えて。植田 -->
 <?php
 define('DSN', 'mysql:host=localhost;dbname=test');
 define('DB_USER', 'root');
@@ -15,21 +15,22 @@ define('DB_PASS', 'root');
 session_start();
 
 $userid = $_SESSION["user_id"];
+$icon = $_SESSION["iconpass"];
 
-// if(!isset($_SESSION["user_name"])) {
-//     $no_login_url = "login.html";
-//     header("Location: {$no_login_url}");
-//     exit;
-// }
+try{
+  $pdo = new PDO(DSN,DB_USER,DB_PASS);
+  //ueserid仮で指定してる
+  $sql = "SELECT iconpass FROM users where userid=9";
+  $stmt = $pdo->query($sql);
 
+}catch(Exception $e){
+  $msg = $e->getMessage();
+}
 
-// try{
-//   $pdo = new PDO(DSN,DB_USER,DB_PASS);
-//   $sql = "SELECT * FROM users WHERE NAME == $_SESSION['user_id']";
-//   $stmt = $pdo->query($sql);
-// }catch(Exception $e){
-//   $msg = $e->getMessage();
-// }
+foreach ($stmt as $row) {
+  $filepath = $row['iconpass'];
+}
+var_dump($filepath);
 
 ?>
 
@@ -69,7 +70,8 @@ $userid = $_SESSION["user_id"];
   </nav>
   <!-- プロフィールを記載 -->
   <div class="profile">
-    <img class="profile_img" src="file:///C:/Users/2190492/Desktop/%E3%83%91%E3%83%BC%E3%82%BD%E3%83%8A%E3%83%AB/%E7%94%BB%E5%83%8F/%E8%89%B2%E3%80%85/%E3%83%81%E3%83%99%E3%83%83%E3%83%88%E3%82%B9%E3%83%8A%E3%82%AE%E3%83%84%E3%83%8D.jpg">
+    <!-- 変数パス例  .image/xxx.jpg -->
+    <img class="profile_img" src="<?php echo $filepath;?>">
     <div class="profile_name">
       <span>名前：</span>
       <span class="name"><?php echo $userid; ?></span>

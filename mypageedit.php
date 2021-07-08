@@ -1,5 +1,4 @@
 <?php
-
 define('DSN', 'mysql:host=localhost;dbname=test');
 define('DB_USER', 'root');
 define('DB_PASS', 'root');
@@ -13,7 +12,6 @@ try{
 }catch(Exception $e){
   $msg = $e->getMessage();
 }
-
 ?>
 
 <!DOCTYPE html>
@@ -31,7 +29,7 @@ try{
   <div align="center">
     <table border="0">
       <!-- 植田　mypageeditcheckに変更 -->
-      <form action="mypageeditcheck.php" method="get">
+      <form enctype="multipart/form-data" method="post" action="mypageeditcheck.php">
         <tr>
           <th>プロフィール画像:</th>
           <tb><input type="file" name="image"></tb>
@@ -48,14 +46,14 @@ try{
               foreach ($stmt as $row) {
                 ?><label><input type="checkbox" class="lang" value=<?php echo $row['LANGID'];?>><?php echo $row['LANG'];?></label>
               <?php } ?>
-        </td>
+          </td>
         </tr>
         <tr>
           <th>コメント：</th>
           <td><input type="text" name="mycomment" value="" size="24"></td>
         </tr>
         <tr>
-          <td><input type="submit" value="編集を完了する"></td>
+          <td><input type="submit" class="btn btn-primary" value="編集を完了する"></td>
         </tr>
       </form>
     </table>
