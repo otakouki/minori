@@ -30,7 +30,7 @@ try{
 foreach ($stmt as $row) {
   $filepath = $row['iconpass'];
 }
-var_dump($filepath);
+// var_dump($filepath);
 
 ?>
 
@@ -93,9 +93,9 @@ var_dump($filepath);
   <!-- タブメニュー -->
   <div class="tab">
     <ul class="tab-menu">
-      <li class="tab-item active">過去の投稿</li>
-      <li class="tab-item">お気に入りサイト</li>
-      <li class="tab-item">お気に入りユーザー</li>
+      <li class="tab-item active">自分の投稿</li>
+      <li class="tab-item">いいねタグ</li>
+      <li class="tab-item">お気に入り</li>
     </ul>
     <!-- コンテンツ -->
     <div class="tab-box">

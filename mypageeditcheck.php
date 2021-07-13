@@ -1,4 +1,10 @@
+<!--
+mypageeditで記入した値を取得する
+画像パス、名前、プログラム言語(文字列)、コメント
+画像パスはファイル形式をチェックする
 
+
+ -->
 <?php
 // データベース設定ファイルを含む
 define('DSN', 'mysql:host=localhost;dbname=test');
@@ -27,14 +33,13 @@ $fileType = pathinfo($targetFilePath,PATHINFO_EXTENSION);
 //画像アップロードの処理--ファイル形式変えたりサイトジャンプ入れるかも--植田
 if(!empty($_FILES["image"]["name"])){
     // 特定のファイル形式の許可
-    $allowTypes = array('jpg','png','jpeg','gif','pdf');
+    $allowTypes = array('jpg','png','jpeg');
     if(in_array($fileType, $allowTypes)){
         // サーバーにファイルをアップロード
         if(move_uploaded_file($_FILES["image"]["tmp_name"], $targetFilePath)){
             // データベースに画像ファイル名を挿入
             //$insert = $pdo->query("select * from users");
              $insert = $pdo->query("update users set iconpass='$targetFilePath' where userid = 9");
-             var_dump($insert);
           if($insert){
               $statusMsg = " ".$fileName. " が正常にアップロードされました";
           }else{
@@ -44,12 +49,35 @@ if(!empty($_FILES["image"]["name"])){
           $statusMsg = "申し訳ありませんが、ファイルのアップロードに失敗しました";
       }
   }else{
-      $statusMsg = '申し訳ありませんが、アップロード可能なファイル（形式）は、JPG、JPEG、PNG、GIF、PDFのみです';
+      $statusMsg = '申し訳ありませんが、アップロード可能なファイル（形式）は、JPG、JPEG、PNGのみです';
   }
 }else{
     $statusMsg = 'アップロードするファイルを選択してください';
 }
 
-// ステータスメッセージを表示
+//配列で得たプログラム言語を文字列にする
+if(isset($_POST['lang']) && is_array($_POST['lang'])){
+  $lang = implode("、",$_POST['lang']);
+}else{
+  $lang = "プログラム言語が選択されていません";
+}
+// 名前
+if(isset($_POST['myname'])){
+  $name = $_POST['myname'];
+}else{
+  $name = "名無しの権平さん";
+}
+// コメント
+if(isset($_POST['mycomment'])){
+  $coment = $_POST['mycomment'];
+}else{
+  $coment = "コメントがありません。";
+}
+//以下の変数をデータベースに入れる
+var_dump($lang,$name,$coment);
+// ステータスメッセージを表示(画像)
 echo $statusMsg;
+
+$login_success_url = "mypage.php";
+header("Location: {$login_success_url}");
 ?>

@@ -32,7 +32,7 @@ try{
       <form enctype="multipart/form-data" method="post" action="mypageeditcheck.php">
         <tr>
           <th>プロフィール画像:</th>
-          <tb><input type="file" name="image"></tb>
+          <td><input type="file" name="image"></td>
         </tr>
         <tr>
           <th>名前：</th>
@@ -42,9 +42,10 @@ try{
           <th>使用言語：</th>
           <td>
             <!-- DBからプログラム言語一覧を取り出す -->
+            <!-- 事前にプログラム言語を入れたテーブルをつくる必要あり -->
             <?php
               foreach ($stmt as $row) {
-                ?><label><input type="checkbox" class="lang" value=<?php echo $row['LANGID'];?>><?php echo $row['LANG'];?></label>
+                ?><label><input type="checkbox" name="lang[]" value=<?php echo $row['LANG'];?>><?php echo $row['LANG'];?></label>
               <?php } ?>
           </td>
         </tr>
@@ -55,6 +56,7 @@ try{
         <tr>
           <td><input type="submit" class="btn btn-primary" value="編集を完了する"></td>
         </tr>
+        <tr><th></th><td>アップロード可能なファイル（形式）は、JPG、JPEG、PNGのみです</td></tr>
       </form>
     </table>
   </div>
