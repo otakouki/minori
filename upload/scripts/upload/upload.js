@@ -1,3 +1,7 @@
+/*
+ * アップロード処理
+ */
+
 {
     'use strict'
 
@@ -16,6 +20,7 @@
             // オブザーバーイベント定義
             this.listeners = {
                 set: [],
+                selected: [],
                 upload: []
             };
         }
@@ -37,31 +42,32 @@
             for (const i of files) {
                 this.files.push(i);
             }
+            this.trigger('selected', this.files);
             this.trigger('set', this.files);
         }
 
-        // ファイルアップロード
+        // アップロード
         upload() {
-            console.log(`タイトル: ${this.attr.title.value}`);
-
             this.files.forEach(file => {
                 const form_data = new FormData();
                 form_data.append('file', file);
 
                 const xhr = new XMLHttpRequest();
-                xhr.open('post', '/api/upload');
+                xhr.open('post', 'api/upload');
 
                 xhr.onload = e => {
+                    xhr = null;
                     const target = e.target;
 
                     if (target.readyStatus !== 4 && target.status !== 200) {
                         console.error('Response Error!');
+                        window.alert('APIサーバへ接続できません。');
                         return -1;
                     }
 
                     const response = target.responseText;
                     console.log(response);
-                    window.alert('アップロードが完了しました。');
+                    //window.alert('アップロードが完了しました。');
                 }
 
                 // プログレス
@@ -70,10 +76,11 @@
                 }
 
                 xhr.send(form_data);
+
             });
         }
 
-        // コメント抜き出し機能 (不具合あり)
+        // コメント抜き出し機能
         fileCommentParse(index) {
             this.commnet = {
 
@@ -84,12 +91,13 @@
                 const s = reader.result.split('\n');
                 let start = 0;
                 let end = 0;
+                let msg = '';
                 for (let i = 0, len = s.length; i < len; i++) {
                     if (s[i].trim().startsWith('//')) {
-                        console.log(`一行のコメント: ${s[i]}`);
+                        msg = `一行のコメント: ${s[i]}\n`;
                         const el = document.createElement('div');
                         el.textContent = `${i}行目: ${s[i]}`;
-                        document.querySelector('.commnet').appendChild(el);
+                        //document.querySelector('.commnet').appendChild(el);
                     } else if (s[i].trim().startsWith('/*')) {
                         start = i;
                         for (let j = i + 1, j_len = s.length; j < j_len; j++) {
@@ -98,13 +106,15 @@
                             }
                         }
                         for (let j = start, j_len = end; j < j_len; j++) {
-                            console.log(`複数行のコメント: ${s[j]}`);
+                            msg = `複数行のコメント: ${s[j]}\n`;
                             const el = document.createElement('div');
                             el.textContent = `${j}行目: ${s[j]}`;
-                            document.querySelector('.commnet').appendChild(el);
+                            //document.querySelector('.commnet').appendChild(el);
                         }
                     }
                 }
+
+                window.alert(msg);
             }
 
             reader.readAsText(this.files[index]);
@@ -124,7 +134,31 @@
 
         // 初期化
         initialize() {
-            this.from = new Form();
+            const upload_meta_obj = {
+                '.upload-file-meta-container': [
+                    {
+                        classList: 'upload-meta-value-input',
+                        name: 'title',
+                        title: 'タイトル',
+                        type: 'text'
+                    },
+                    {
+                        classList: 'upload-meta-value-input',
+                        name: 'public',
+                        title: '公開範囲',
+                        type: 'radio',
+                        attr: ['パブリック', 'メンバー', 'プライベート']
+                    },
+                    {
+                        classList: 'upload-meta-value-input',
+                        name: 'db-exp',
+                        title: 'データベースエクスポート',
+                        type: 'radio'
+                    }
+                ]
+            };
+
+            //this.upload_meta = new UploadMeta(upload_meta_obj);
 
             this.input = this.el.querySelector('.upload-file-input');
             this.submit = this.el.querySelector('.upload-submit-button');
@@ -158,14 +192,18 @@
             // アップロードボタン
             this.submit.addEventListener('click', e => {
                 e.preventDefault();
-                this.model.upload();
+                //this.model.upload();
+                const modal = new UploadModal(this.model.files);
+                modal.show();
+
             });
 
             // ファイルが選択された時
             this.model.on('set', files => {
                 const test = document.querySelector('.upload-file-data-container');
                 while (test.firstChild) test.removeChild(test.firstChild);
-                
+
+                this.cnt = 0;
                 for (const file of files) {
                     console.log(file);
 
@@ -184,8 +222,17 @@
                     testel.appendChild(test3el);
 
                     test.appendChild(testel);
+
+
+                    test2el.dataset.cnt = this.cnt;
+                    test2el.addEventListener('click', e => {
+                        const i = e.target.dataset.cnt;
+                        this.model.fileCommentParse(i);
+                    });
+                    this.cnt++;
                 }
-                
+
+                //this.model.fileCommentParse(0)
 
                 return
 
