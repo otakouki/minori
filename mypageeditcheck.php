@@ -60,7 +60,7 @@ if(!empty($_FILES["image"]["name"])){
             //$insert = $pdo->query("select * from users");
              $insert = $pdo->query("update users set iconpass='$targetFilePath',name='$name' where userid = $userid");
              // 言語とコメントをデータベースに入れる
-             // $insert2 = $pdo->query("update データベース名 set lang='$lang' coment='$coment' where userid = $userid");
+             // $insert2 = $pdo->query("update データベース名 set lang='$lang',coment='$coment' where userid = $userid");
           if($insert){
               $statusMsg = " ".$fileName. " が正常にアップロードされました";
           }else{

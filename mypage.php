@@ -84,11 +84,11 @@ $coment = "はじめまして！";
   <nav class="globalMenuSp">
     <h3>メニュー</h3>
     <ul>
-      <li><a href="#">Menu1</a></li>
-      <li><a href="#">Menu2</a></li>
+      <li><a href="main.php">home</a></li>
+      <li><a href="#">meni2</a></li>
       <li><a href="#">Menu3</a></li>
       <li><a href="#">Menu4</a></li>
-      <li><a href="#">Menu5</a></li>
+      <li><a href="login.html">ログアウト</a></li>
     </ul>
   </nav>
   <!-- プロフィールを記載 -->
@@ -112,8 +112,7 @@ $coment = "はじめまして！";
   <!-- コメント -->
   <!-- 変数comentに書き換える -->
   <div class="coment"><?php echo $coment; ?></div>
-  <button type="button" class="edit" href="mypageedit.html">プロフィールを編集する</button>
-
+  <a href="mypageedit.php">プロフィールを編集する</a>
   <!-- 過去に上げたサイトのリンクなど -->
   <!-- タブメニュー -->
   <div class="tab">

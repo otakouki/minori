@@ -10,7 +10,14 @@ $userid = $_POST['user_id'];
 $passwd = $_POST['password'];
 $hash = hash("sha256", $passwd);
 //新規の人用の仮表示の画像パスを入れる
-var_dump(icon);
+
+try {
+  $pdo = new PDO(DSN, DB_USER, DB_PASS);
+  $sql = "SLECT * FROM users";
+  $stmt = $pdo->prepare($sql);
+} catch (Exception $e) {
+  $msg = $e->getMessage();
+}
 
 try {
   $pdo = new PDO(DSN, DB_USER, DB_PASS);
@@ -21,6 +28,7 @@ try {
   $msg = $e->getMessage();
 }
 var_dump($sql);
+
 
 // var_dump($userid, $hash);
 ?>
