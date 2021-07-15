@@ -12,6 +12,7 @@ define('DB_USER', 'root');
 define('DB_PASS', 'root');
 
 session_start();
+$userid = $_SESSION["user_id"];
 
 try{
   $pdo = new PDO(DSN,DB_USER,DB_PASS);
@@ -28,6 +29,24 @@ $pas="./images/";
 $fileName = basename($_FILES["image"]["name"]);
 $targetFilePath = $pas . $fileName;
 $fileType = pathinfo($targetFilePath,PATHINFO_EXTENSION);
+$lang = $_POST['lang'];
+$name = $_POST['myname'];
+$coment = $_POST['mycomment'];
+//配列で得たプログラム言語を文字列にする
+if(isset($lang) && is_array($lang)){
+  $lang = implode("、",$lang);
+}else{
+  $lang = "プログラム言語が選択されていません";
+}
+// 名前
+if(empty($name)){
+  $name = "名無しの権平さん";
+}
+// コメント
+if(empty($coment)){
+  $coment = "コメントがありません。";
+}
+
 //var_dump($targetFilePath);
 
 //画像アップロードの処理--ファイル形式変えたりサイトジャンプ入れるかも--植田
@@ -39,7 +58,9 @@ if(!empty($_FILES["image"]["name"])){
         if(move_uploaded_file($_FILES["image"]["tmp_name"], $targetFilePath)){
             // データベースに画像ファイル名を挿入
             //$insert = $pdo->query("select * from users");
-             $insert = $pdo->query("update users set iconpass='$targetFilePath' where userid = 9");
+             $insert = $pdo->query("update users set iconpass='$targetFilePath',name='$name' where userid = $userid");
+             // 言語とコメントをデータベースに入れる
+             // $insert2 = $pdo->query("update データベース名 set lang='$lang' coment='$coment' where userid = $userid");
           if($insert){
               $statusMsg = " ".$fileName. " が正常にアップロードされました";
           }else{
@@ -55,26 +76,8 @@ if(!empty($_FILES["image"]["name"])){
     $statusMsg = 'アップロードするファイルを選択してください';
 }
 
-//配列で得たプログラム言語を文字列にする
-if(isset($_POST['lang']) && is_array($_POST['lang'])){
-  $lang = implode("、",$_POST['lang']);
-}else{
-  $lang = "プログラム言語が選択されていません";
-}
-// 名前
-if(isset($_POST['myname'])){
-  $name = $_POST['myname'];
-}else{
-  $name = "名無しの権平さん";
-}
-// コメント
-if(isset($_POST['mycomment'])){
-  $coment = $_POST['mycomment'];
-}else{
-  $coment = "コメントがありません。";
-}
 //以下の変数をデータベースに入れる
-var_dump($lang,$name,$coment);
+var_dump($userid,$lang,$name,$coment);
 // ステータスメッセージを表示(画像)
 echo $statusMsg;
 
