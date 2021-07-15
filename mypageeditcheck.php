@@ -22,6 +22,7 @@ try{
   $msg = $e->getMessage();
 }
 $statusMsg = '';
+$statusMsgok = '';
 
 // ファイルのアップロード先
 //相対パスに変えた--植田
@@ -40,7 +41,7 @@ if(isset($lang) && is_array($lang)){
 }
 // 名前
 if(empty($name)){
-  $name = "名無しの権平さん";
+  $name = "匿名さん";
 }
 // コメント
 if(empty($coment)){
@@ -62,25 +63,27 @@ if(!empty($_FILES["image"]["name"])){
              // 言語とコメントをデータベースに入れる
              // $insert2 = $pdo->query("update データベース名 set lang='$lang',coment='$coment' where userid = $userid");
           if($insert){
-              $statusMsg = " ".$fileName. " が正常にアップロードされました";
+              $statusMsgok = " ".$fileName. " が正常にアップロードされました";
           }else{
               $statusMsg = "ファイルのアップロードに失敗しました、もう一度お試しください";
           }
       }else{
-          $statusMsg = "申し訳ありませんが、ファイルのアップロードに失敗しました";
+          $statusMsg = "申し訳ありません、ファイルのアップロードに失敗しました";
       }
   }else{
-      $statusMsg = '申し訳ありませんが、アップロード可能なファイル（形式）は、JPG、JPEG、PNGのみです';
+      $statusMsg = '申し訳ありません、アップロード可能なファイル（形式）は、JPG、JPEG、PNGのみです';
   }
 }else{
     $statusMsg = 'アップロードするファイルを選択してください';
 }
 
-//以下の変数をデータベースに入れる
-var_dump($userid,$lang,$name,$coment);
 // ステータスメッセージを表示(画像)
-echo $statusMsg;
+if(empty($statusMsgok)){
+  echo $statusMsg;
+  exit;
+}else{
+  $login_success_url = "mypage.php";
+  header("Location: {$login_success_url}");
+}
 
-$login_success_url = "mypage.php";
-header("Location: {$login_success_url}");
 ?>

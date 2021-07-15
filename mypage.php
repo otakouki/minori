@@ -84,7 +84,7 @@ $coment = "はじめまして！";
   <nav class="globalMenuSp">
     <h3>メニュー</h3>
     <ul>
-      <li><a href="main.php">home</a></li>
+      <li><a href="main.php">Home</a></li>
       <li><a href="#">meni2</a></li>
       <li><a href="#">Menu3</a></li>
       <li><a href="#">Menu4</a></li>
