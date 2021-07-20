@@ -45,7 +45,7 @@ try{
             <!-- 事前にプログラム言語を入れたテーブルをつくる必要あり -->
             <?php
               foreach ($stmt as $row) {
-                ?><label><input type="checkbox" name="lang[]" value=<?php echo $row['LANG'];?>><?php echo $row['LANG'];?></label>
+                ?><label><input type="checkbox" name="lang[]" value=<?php echo $row['LANGID'];?>><?php echo $row['LANG'];?></label>
               <?php } ?>
           </td>
         </tr>

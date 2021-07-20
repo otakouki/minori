@@ -33,9 +33,9 @@ $fileType = pathinfo($targetFilePath,PATHINFO_EXTENSION);
 $lang = $_POST['lang'];
 $name = $_POST['myname'];
 $coment = $_POST['mycomment'];
-//配列で得たプログラム言語を文字列にする
+var_dump($lang);
+//配列で得たプログラム言語をvalueにして配列に入れる
 if(isset($lang) && is_array($lang)){
-  $lang = implode("、",$lang);
 }else{
   $lang = "プログラム言語が選択されていません";
 }
@@ -59,13 +59,15 @@ if(!empty($_FILES["image"]["name"])){
         if(move_uploaded_file($_FILES["image"]["tmp_name"], $targetFilePath)){
             // データベースに画像ファイル名を挿入
             //$insert = $pdo->query("select * from users");
-             $insert = $pdo->query("update users set iconpass='$targetFilePath',name='$name' where userid = $userid");
+             $insert = $pdo->query("update users set iconpass='$targetFilePath',name='$name','PROFILE_COMMENT = $comment' where userid = $userid");
              // 言語とコメントをデータベースに入れる
-             // $insert2 = $pdo->query("update データベース名 set lang='$lang',coment='$coment' where userid = $userid");
           if($insert){
               $statusMsgok = " ".$fileName. " が正常にアップロードされました";
           }else{
               $statusMsg = "ファイルのアップロードに失敗しました、もう一度お試しください";
+          }
+          foreach ($lang as $l) {
+            $insert = $pdo->query("update like_lang set 'USER_ID = $userid','LIKE_LANG'");
           }
       }else{
           $statusMsg = "申し訳ありません、ファイルのアップロードに失敗しました";
@@ -82,8 +84,8 @@ if(empty($statusMsgok)){
   echo $statusMsg;
   exit;
 }else{
-  $login_success_url = "mypage.php";
-  header("Location: {$login_success_url}");
+  // $login_success_url = "mypage.php";
+  // header("Location: {$login_success_url}");
 }
 
 ?>

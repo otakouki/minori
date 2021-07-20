@@ -8,6 +8,10 @@
 使う言語など： -->
 <!-- 画像表示できるようになった。変更する場合はmypegeeditcheckで保存先変えて。植田 -->
 <?php
+// define('DSN', 'mysql:host=minori-mysql-db.celya9ihh19s.us-west-2.rds.amazonaws.com;dbname=minori');
+// define('DB_USER', 'root');
+// define('DB_PASS', 'it_kaihatu_minori');
+
 define('DSN', 'mysql:host=localhost;dbname=test');
 define('DB_USER', 'root');
 define('DB_PASS', 'root');
@@ -27,34 +31,54 @@ if(isset($userid)){
 
 try{
   $pdo = new PDO(DSN,DB_USER,DB_PASS);
-  $sql = "SELECT name,iconpass FROM users where userid=$userid";
-  $stmt = $pdo->query($sql);
+  // 個人情報
+  $sql_user = "SELECT name,iconpass,coment FROM users where userid=$userid";
+  $sql_languser = "SELECT lang FROM likelang where userid=$userid";
+  // タブメニューに表示
+  $sql_content = "SELECT * FROM content where userid=$userid";
+  $sql_likes = "SELECT * FROM likes where userid=$userid";
+  $sql_favorite = "SELECT * FROM favorite where userid=$userid";
 }catch(Exception $e){
   $msg = $e->getMessage();
 }
-
+//以下をひとまとめに要素を抜き出す
+// 個人情報
+$stmt = $pdo->query($sql_user);
 foreach ($stmt as $row) {
   $filepath = $row['iconpass'];
   $name = $row['name'];
 }
+$stmt = $pdo->query($sql_languser);
+foreach ($stmt as $row) {
+  $lang = $row['lang'];
+  $coment = $row['coment'];
+}
+// タブメニューに表示
+$stmt = $pdo->query($sql_content);
+foreach ($stmt as $row) {
+  $CONTENT_ID = $row['CONTENT_ID'];
+  $TITLE = $row['TITLE'];
+  $FILE_PASS = $row['FILE_PASS'];
+}
+$stmt = $pdo->query($sql_likes);
+foreach ($stmt as $row) {
+
+}
+$stmt = $pdo->query($sql_favorite);
+foreach ($stmt as $row) {
+
+}
+
+
 if(empty($filepath)){
   $filepath = "./images/newlogin.jpg";
 }
 // var_dump($filepath);
 
-//言語、コメントを抜き出す
-// try{
-//   $sql = "SELECT lang,coment FROM "データベース名" where userid=$userid";
-//   $stmt = $pdo->query($sql);
-// }catch(Exception $e){
-//   $msg = $e->getMessage();
-// }
-// foreach ($stmt as $row) {
-//   $lang = $row['lang'];
-//   $coment = $row['coment'];
-// }
+// 仮入れ
 $lang="PHP";
 $coment = "はじめまして！";
+
 ?>
 
 <!DOCTYPE html>
@@ -85,9 +109,7 @@ $coment = "はじめまして！";
     <h3>メニュー</h3>
     <ul>
       <li><a href="main.php">Home</a></li>
-      <li><a href="#">meni2</a></li>
-      <li><a href="#">Menu3</a></li>
-      <li><a href="#">Menu4</a></li>
+      <li><a href="#">ファイルアップロード</a></li>
       <li><a href="login.html">ログアウト</a></li>
     </ul>
   </nav>
@@ -118,14 +140,24 @@ $coment = "はじめまして！";
   <div class="tab">
     <ul class="tab-menu">
       <li class="tab-item active">自分の投稿</li>
-      <li class="tab-item">いいねタグ</li>
+      <li class="tab-item">フォロワー</li>
+      <li class="tab-item">フォロー</li>
       <li class="tab-item">お気に入り</li>
     </ul>
     <!-- コンテンツ -->
     <div class="tab-box">
-      <div class="tab-content show">コンテンツA</div>
+      <div class="tab-content show">
+        <?php
+          if(empty($CONTENT_ID)){
+            echo "コンテンツがありません";
+          }else{
+            var_dump($CONTENT_ID,$TITLE,$FILE_PASS);
+          }
+        ?>
+      </div>
       <div class="tab-content">コンテンツB</div>
       <div class="tab-content">コンテンツC</div>
+      <div class="tab-content">コンテンツD</div>
     </div>
   </div>
 </body>
