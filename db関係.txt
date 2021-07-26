@@ -2,7 +2,9 @@
 
 mariadb pass:it_kaihatu_minori
 
-エンドポイント: minori-mysql-db.celya9ihh19s.us-west-2.rds.amazonaws.com
+エンドポイント: minori-mysql-db.cvho1vhk3k7f.us-east-2.rds.amazonaws.com
 
 
-ip address:54.188.56.50
+ip address:13.59.34.196
+
+キーペア: minori_ssh_east2.pem
