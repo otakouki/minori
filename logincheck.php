@@ -27,9 +27,24 @@ foreach ($stmt as $row) {
     header("Location: {$login_success_url}");
     exit;
   }else {
-    $msg = "ログイン失敗";
+    $str = "ユーザー情報またはパスワードが間違っています";
   }
 }
-echo $msg;
 
  ?>
+ <!-- 5秒後にログイン画面にジャンプするように変更した -->
+ <!DOCTYPE html>
+ <html lang="ja">
+ <head>
+   <meta charset="utf-8">
+   <title>プロフィール編集</title>
+   <!-- <link rel="stylesheet" href="css/mypage.css"> -->
+   <!-- <META http-equiv="Refresh" content="5;URL=login.html"> -->
+ </head>
+ <header>
+   <h1><?php echo($str) ?></h1>
+ </header>
+ <body>
+   <!-- このページは5秒後にログイン画面にジャンプします。 -->
+ </body>
+ </html>

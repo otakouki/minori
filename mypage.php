@@ -11,61 +11,68 @@
 // define('DSN', 'mysql:host=minori-mysql-db.celya9ihh19s.us-west-2.rds.amazonaws.com;dbname=minori');
 // define('DB_USER', 'root');
 // define('DB_PASS', 'it_kaihatu_minori');
-
-define('DSN', 'mysql:host=localhost;dbname=test');
+// 仮入れ
+$lang="なし";
+$coment = "はじめまして！";
+$lang1 = array();
+$options = array(
+    PDO::MYSQL_ATTR_INIT_COMMAND => 'SET NAMES utf8mb4',
+);
+define('DSN', 'mysql:host=minori-mysql-db.celya9ihh19s.us-west-2.rds.amazonaws.com;dbname=minori');
 define('DB_USER', 'root');
-define('DB_PASS', 'root');
-
+define('DB_PASS', 'it_kaihatu_minori');
 session_start();
 
-$userid = $_SESSION["user_id"];
+$userid = intval($_SESSION["user_id"]);
 $icon = $_SESSION["iconpass"];
 
 // ログイン状態を保持しているか判別
 if(isset($userid)){
 }else{
-  header('Location:login.php');
+  header('Location:login.html');
      exit;
 }
 
 
 try{
-  $pdo = new PDO(DSN,DB_USER,DB_PASS);
+  $pdo = new PDO(DSN,DB_USER,DB_PASS,$options);
   // 個人情報
-  $sql_user = "SELECT name,iconpass,coment FROM users where userid=$userid";
-  $sql_languser = "SELECT lang FROM likelang where userid=$userid";
+  $sql_user = "SELECT * FROM users where user_id=$userid";
+  $sql_languser = "SELECT l.LANG_NAME FROM like_lang a,langlist l where a.LIKE_LANG = l.LANG_ID and a.USER_ID=$userid";
   // タブメニューに表示
-  $sql_content = "SELECT * FROM content where userid=$userid";
-  $sql_likes = "SELECT * FROM likes where userid=$userid";
+  $sql_content = "SELECT * FROM content where user_id=$userid";
+  $sql_likes = "SELECT * FROM likes where user_id=$userid";
   $sql_favorite = "SELECT * FROM favorite where userid=$userid";
+$stmt1 = $pdo->query($sql_user);
+$stmt2 = $pdo->query($sql_languser);
+$stmt3 = $pdo->query($sql_content);
+$stmt4 = $pdo->query($sql_likes);
+$stmt5 = $pdo->query($sql_favorite);
 }catch(Exception $e){
   $msg = $e->getMessage();
 }
 //以下をひとまとめに要素を抜き出す
 // 個人情報
-$stmt = $pdo->query($sql_user);
-foreach ($stmt as $row) {
-  $filepath = $row['iconpass'];
-  $name = $row['name'];
+foreach ($stmt1 as $row1) {
+  $filepath = $row1['ICONPASS'];
+  $name = $row1['NAME'];
+  $coment = $row1['PROFILE_COMMENT'];
+  $_SESSION["coment"] = $coment;
 }
-$stmt = $pdo->query($sql_languser);
-foreach ($stmt as $row) {
-  $lang = $row['lang'];
-  $coment = $row['coment'];
+$l = 0;
+foreach ($stmt2 as $row2) {
+  $l += 1;
+  $lang1[$l] = $row2['LANG_NAME'];
 }
 // タブメニューに表示
-$stmt = $pdo->query($sql_content);
-foreach ($stmt as $row) {
-  $CONTENT_ID = $row['CONTENT_ID'];
-  $TITLE = $row['TITLE'];
-  $FILE_PASS = $row['FILE_PASS'];
+// 未完成：テーブルの中身があるかどうか確かめる
+foreach ($stmt3 as $row3) {
+  $CONTENT_ID = $row3['CONTENT_ID'];
 }
-$stmt = $pdo->query($sql_likes);
-foreach ($stmt as $row) {
+foreach ($stmt4 as $row4) {
 
 }
-$stmt = $pdo->query($sql_favorite);
-foreach ($stmt as $row) {
+foreach ($stmt5 as $row4) {
 
 }
 
@@ -75,9 +82,9 @@ if(empty($filepath)){
 }
 // var_dump($filepath);
 
-// 仮入れ
-$lang="PHP";
-$coment = "はじめまして！";
+ // 仮入れ
+// $lang="PHP";
+//$coment = "はじめまして！";
 
 ?>
 
@@ -128,7 +135,20 @@ $coment = "はじめまして！";
     <div class="profile_data">
       <span>主な使用言語：</span>
       <!-- 変数langに書き換える -->
-      <span class="data"><?php echo $lang; ?></span>
+      <span class="data"><?php if($lang1 == NULL){
+        echo $lang;
+      }else{
+        $i = count($lang1);
+        $cnt = 0;
+        foreach($lang1 as $lang){
+          $cnt += 1;
+          echo $lang;
+          if($i != $cnt){
+            echo ", ";
+          }
+
+        }
+      } ?></span>
     </div>
   </div>
   <!-- コメント -->
@@ -146,18 +166,46 @@ $coment = "はじめまして！";
     </ul>
     <!-- コンテンツ -->
     <div class="tab-box">
+      <!-- 未完成：以下コンテンツの中身 -->
       <div class="tab-content show">
+        <!-- 自分の投稿 -->
         <?php
           if(empty($CONTENT_ID)){
             echo "コンテンツがありません";
           }else{
-            var_dump($CONTENT_ID,$TITLE,$FILE_PASS);
+            foreach ($stmt3 as $row3) {
+              echo $row3['TITLE'].$row3['FILE_PASS'];
+            }
           }
         ?>
       </div>
-      <div class="tab-content">コンテンツB</div>
-      <div class="tab-content">コンテンツC</div>
-      <div class="tab-content">コンテンツD</div>
+      <div class="tab-content">
+        <!-- フォロワー -->
+        <?php
+          if(empty($CONTENT_ID)){
+            echo "コンテンツがありません";
+          }else{
+          }
+        ?>
+      </div>
+      <div class="tab-content">
+        <!-- フォロー -->
+        <?php
+          if(empty($CONTENT_ID)){
+            echo "コンテンツがありません";
+          }else{
+          }
+        ?>
+      </div>
+      <div class="tab-content">
+        <!-- お気に入り -->
+        <?php
+          if(empty($CONTENT_ID)){
+            echo "コンテンツがありません";
+          }else{
+          }
+        ?>
+      </div>
     </div>
   </div>
 </body>

@@ -7,15 +7,18 @@ mypageeditで記入した値を取得する
  -->
 <?php
 // データベース設定ファイルを含む
-define('DSN', 'mysql:host=localhost;dbname=test');
+$options = array(
+    PDO::MYSQL_ATTR_INIT_COMMAND => 'SET NAMES utf8',
+);
+define('DSN', 'mysql:host=minori-mysql-db.celya9ihh19s.us-west-2.rds.amazonaws.com;dbname=minori;');
 define('DB_USER', 'root');
-define('DB_PASS', 'root');
+define('DB_PASS', 'it_kaihatu_minori');
 
 session_start();
-$userid = $_SESSION["user_id"];
+$userid = intval($_SESSION["user_id"]);
 
 try{
-  $pdo = new PDO(DSN,DB_USER,DB_PASS);
+  $pdo = new PDO(DSN,DB_USER,DB_PASS,$options);
   $sql = "SELECT * FROM users";
   $stmt = $pdo->query($sql);
 }catch(Exception $e){
@@ -33,7 +36,8 @@ $fileType = pathinfo($targetFilePath,PATHINFO_EXTENSION);
 $lang = $_POST['lang'];
 $name = $_POST['myname'];
 $coment = $_POST['mycomment'];
-var_dump($lang);
+// var_dump($lang);
+var_dump($userid);
 //配列で得たプログラム言語をvalueにして配列に入れる
 if(isset($lang) && is_array($lang)){
 }else{
@@ -56,18 +60,25 @@ if(!empty($_FILES["image"]["name"])){
     $allowTypes = array('jpg','png','jpeg');
     if(in_array($fileType, $allowTypes)){
         // サーバーにファイルをアップロード
+        var_dump("名前=" . $name);
         if(move_uploaded_file($_FILES["image"]["tmp_name"], $targetFilePath)){
+        var_dump("通りました");
+
             // データベースに画像ファイル名を挿入
             //$insert = $pdo->query("select * from users");
-             $insert = $pdo->query("update users set iconpass='$targetFilePath',name='$name','PROFILE_COMMENT = $comment' where userid = $userid");
+
+             $insert = $pdo->query("update users set iconpass='$targetFilePath',name='$name',PROFILE_COMMENT = '$coment' where user_id = $userid");
              // 言語とコメントをデータベースに入れる
+
           if($insert){
               $statusMsgok = " ".$fileName. " が正常にアップロードされました";
           }else{
               $statusMsg = "ファイルのアップロードに失敗しました、もう一度お試しください";
           }
+          $delete = $pdo->query("delete from like_lang where USER_ID = $userid");
           foreach ($lang as $l) {
-            $insert = $pdo->query("update like_lang set 'USER_ID = $userid','LIKE_LANG'");
+
+            $insert = $pdo->query("INSERT INTO like_lang  VALUES ($userid,'$l')");
           }
       }else{
           $statusMsg = "申し訳ありません、ファイルのアップロードに失敗しました";
@@ -81,11 +92,11 @@ if(!empty($_FILES["image"]["name"])){
 
 // ステータスメッセージを表示(画像)
 if(empty($statusMsgok)){
-  echo $statusMsg;
+  echo($statusMsg);
   exit;
 }else{
-  // $login_success_url = "mypage.php";
-  // header("Location: {$login_success_url}");
+  $login_success_url = "mypage.php";
+  header("Location: {$login_success_url}");
 }
 
 ?>

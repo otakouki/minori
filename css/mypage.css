@@ -161,7 +161,7 @@ li {
 /* コンテンツは原則非表示 */
 .tab-content {
   display: none;
-  font-size: 40px;
+  font-size: 20px;
 }
 
 /* .showがついたコンテンツのみ表示 */
