@@ -17,7 +17,11 @@
       <form action="newlogincheck.php" method="post">
         <tr>
           <th>ユーザ名</th>
-          <td><input pattern="^[0-9A-Za-z]+$"  title="半角英数で入力してください" type="email" name="user_mail" value="" size="24" required></td>
+          <td><input pattern="^[0-9A-Za-z]+$"  title="半角英数で入力してください" type="text" name="user_id" value="" size="24" required></td>
+        </tr>
+        <tr>
+          <th>メール</th>
+          <td><input pattern="^([a-zA-Z0-9])+([a-zA-Z0-9._-])*@([a-zA-Z0-9_-])+([a-zA-Z0-9._-]+)+$"  title="正しいメールアドレスを入力してください" type="text" name="mail" value="" size="24" required></td>
         </tr>
         <tr>
           <th>パスワード</th>

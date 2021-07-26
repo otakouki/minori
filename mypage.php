@@ -18,9 +18,9 @@ $lang1 = array();
 $options = array(
     PDO::MYSQL_ATTR_INIT_COMMAND => 'SET NAMES utf8mb4',
 );
-define('DSN', 'mysql:host=minori-mysql-db.celya9ihh19s.us-west-2.rds.amazonaws.com;dbname=minori');
-define('DB_USER', 'root');
-define('DB_PASS', 'it_kaihatu_minori');
+$DSN = 'mysql:host=minori-mysql-db.celya9ihh19s.us-west-2.rds.amazonaws.com;dbname=minori';
+$USER = 'root';
+$PASS = 'it_kaihatu_minori';
 session_start();
 
 $userid = intval($_SESSION["user_id"]);
@@ -35,18 +35,18 @@ if(isset($userid)){
 
 
 try{
-  $pdo = new PDO(DSN,DB_USER,DB_PASS,$options);
+  $pdo = new PDO($DSN,$USER,$PASS,$options);
   // 個人情報
   $sql_user = "SELECT * FROM users where user_id=$userid";
   $sql_languser = "SELECT l.LANG_NAME FROM like_lang a,langlist l where a.LIKE_LANG = l.LANG_ID and a.USER_ID=$userid";
   // タブメニューに表示
   $sql_content = "SELECT * FROM content where user_id=$userid";
-  $sql_likes = "SELECT * FROM likes where user_id=$userid";
-  $sql_favorite = "SELECT * FROM favorite where userid=$userid";
+  $sql_follwer = "SELECT * FROM follwer";
+  $sql_favorite = "SELECT * FROM likes where userid=$userid";
 $stmt1 = $pdo->query($sql_user);
 $stmt2 = $pdo->query($sql_languser);
 $stmt3 = $pdo->query($sql_content);
-$stmt4 = $pdo->query($sql_likes);
+$stmt4 = $pdo->query($sql_follwer);
 $stmt5 = $pdo->query($sql_favorite);
 }catch(Exception $e){
   $msg = $e->getMessage();
@@ -70,10 +70,11 @@ foreach ($stmt3 as $row3) {
   $CONTENT_ID = $row3['CONTENT_ID'];
 }
 foreach ($stmt4 as $row4) {
-
+    $USER_F_ID = $row4['USER_ID'];
+    $FOLLWER_ID = $row4['FOLLWER_ID'];
 }
-foreach ($stmt5 as $row4) {
-
+foreach ($stmt5 as $row5) {
+  $likes = $row5['CONTENT_ID'];
 }
 
 
@@ -174,7 +175,8 @@ if(empty($filepath)){
             echo "コンテンツがありません";
           }else{
             foreach ($stmt3 as $row3) {
-              echo $row3['TITLE'].$row3['FILE_PASS'];
+              // ページに飛べるようにしたい
+              echo $row3['TITLE'].":".$row3['FILE_PASS'];
             }
           }
         ?>
@@ -182,27 +184,39 @@ if(empty($filepath)){
       <div class="tab-content">
         <!-- フォロワー -->
         <?php
-          if(empty($CONTENT_ID)){
-            echo "コンテンツがありません";
+          if(empty($USER_F_ID)){
+            echo "フォローされていません";
           }else{
+            foreach ($stmt4 as $row4) {
+              if( $row4['USER_ID']==$userid){
+                echo $row4['FOLLWER_ID'];
+              }
+            }
           }
         ?>
       </div>
       <div class="tab-content">
         <!-- フォロー -->
         <?php
-          if(empty($CONTENT_ID)){
-            echo "コンテンツがありません";
+          if(empty($FOLLWER_ID)){
+            echo "フォローしていません";
           }else{
+            foreach ($stmt4 as $row4) {
+              if($row4['FOLLWER_ID']==$userid){
+                echo $row4['USER_ID'];
+              }
+            }
           }
         ?>
       </div>
       <div class="tab-content">
         <!-- お気に入り -->
         <?php
-          if(empty($CONTENT_ID)){
-            echo "コンテンツがありません";
+          if(empty($likes)){
+            echo "お気に入りがありません";
           }else{
+            foreach ($stmt5 as $row5) {
+              echo $row5['CONTENT_ID'];
           }
         ?>
       </div>

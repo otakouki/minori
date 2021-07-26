@@ -2,9 +2,9 @@
 $options = array(
     PDO::MYSQL_ATTR_INIT_COMMAND => 'SET NAMES utf8mb4',
 );
-define('DSN', 'mysql:host=minori-mysql-db.celya9ihh19s.us-west-2.rds.amazonaws.com;dbname=minori');
-define('DB_USER', 'root');
-define('DB_PASS', 'it_kaihatu_minori');
+$DSN = 'mysql:host=minori-mysql-db.celya9ihh19s.us-west-2.rds.amazonaws.com;dbname=minori';
+$USER = 'root';
+$PASS = 'it_kaihatu_minori';
 
 session_start();
 $username = $_SESSION["user_name"];
@@ -12,7 +12,7 @@ $coment = $_SESSION["coment"];
 $userid = intval($_SESSION["user_id"]);
 
 try{
-  $pdo = new PDO(DSN,DB_USER,DB_PASS,$options);
+  $pdo = new PDO($DSN,$USER,$PASS,$options);
   $sql = "SELECT * FROM langlist";
   $sql_user = "SELECT * FROM like_lang where USER_ID = $userid";
   $stmt = $pdo->query($sql);

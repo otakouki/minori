@@ -10,15 +10,15 @@ mypageeditで記入した値を取得する
 $options = array(
     PDO::MYSQL_ATTR_INIT_COMMAND => 'SET NAMES utf8',
 );
-define('DSN', 'mysql:host=minori-mysql-db.celya9ihh19s.us-west-2.rds.amazonaws.com;dbname=minori;');
-define('DB_USER', 'root');
-define('DB_PASS', 'it_kaihatu_minori');
+$DSN = 'mysql:host=minori-mysql-db.celya9ihh19s.us-west-2.rds.amazonaws.com;dbname=minori';
+$USER = 'root';
+$PASS = 'it_kaihatu_minori';
 
 session_start();
 $userid = intval($_SESSION["user_id"]);
 
 try{
-  $pdo = new PDO(DSN,DB_USER,DB_PASS,$options);
+  $pdo = new PDO($DSN,$USER,$PASS,$options);
   $sql = "SELECT * FROM users";
   $stmt = $pdo->query($sql);
 }catch(Exception $e){
