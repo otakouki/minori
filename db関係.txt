@@ -8,3 +8,12 @@ mariadb pass:it_kaihatu_minori
 ip address:13.59.34.196
 
 キーペア: minori_ssh_east2.pem
+
+CREATE TABLE like_lang (
+USER_ID int NOT NULL,
+LIKE_LANG int NOT NULL,
+FOREIGN KEY(USER_ID)
+REFERENCES users(USER_ID),
+FOREIGN KEY(LIKE_LANG)
+REFERENCES langlist(LANG_ID)
+);
